@@ -1,0 +1,57 @@
+{
+  "name": "我的备忘录",
+  "short_name": "备忘录",
+  "description": "Apple风格的现代化备忘录应用",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f5f7",
+  "theme_color": "#007aff",
+  "icons": [
+    {
+      "src": "/assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "新建备忘录",
+      "short_name": "新建",
+      "description": "创建新的备忘录",
+      "url": "/?new=true",
+      "icons": [{ "src": "/assets/icons/new-icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "查看收藏",
+      "short_name": "收藏",
+      "description": "查看收藏的备忘录",
+      "url": "/?folder=favorites",
+      "icons": [{ "src": "/assets/icons/favorite-icon.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/screenshots/desktop.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/assets/screenshots/mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

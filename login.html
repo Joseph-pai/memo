@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入 - 我的備忘錄</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
+    <style>
+        /* 登入頁面專用樣式 */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-wrapper {
+            width: 100%;
+            max-width: 450px;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        .login-header i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .login-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        
+        .login-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .login-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .login-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .login-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .login-tab:hover {
+            color: #007aff;
+        }
+        
+        .login-tab.active {
+            color: #007aff;
+            border-bottom-color: #007aff;
+        }
+        
+        .login-form {
+            display: none;
+        }
+        
+        .login-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: #fafafa;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #007aff;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+        
+        .form-input.with-icon {
+            padding-left: 50px;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 18px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: #007aff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .login-btn:hover {
+            background-color: #0056cc;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .login-btn i {
+            margin-right: 8px;
+        }
+        
+        .guest-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: transparent;
+            color: #007aff;
+            border: 2px solid #007aff;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+        
+        .guest-btn:hover {
+            background-color: #007aff;
+            color: white;
+        }
+        
+        .guest-btn i {
+            margin-right: 8px;
+        }
+        
+        .login-divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .login-divider::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 1px;
+            background-color: #eee;
+        }
+        
+        .login-divider span {
+            background-color: white;
+            padding: 0 20px;
+            color: #666;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        .demo-info {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .demo-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .demo-info p {
+            color: #666;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        
+        .demo-credentials {
+            background-color: #e8f4ff;
+            border-left: 4px solid #007aff;
+            padding: 12px 15px;
+            margin-top: 15px;
+            border-radius: 6px;
+        }
+        
+        .demo-credentials code {
+            font-family: monospace;
+            background-color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #333;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+        
+        .login-footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #ff3b30;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        .success-message {
+            color: #34c759;
+            font-size: 14px;
+            margin-top: 8px;
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            .login-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .login-header i {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-header">
+            <i class="fas fa-sticky-note"></i>
+            <h1>我的備忘錄</h1>
+            <p>安全、簡單、隨時記錄</p>
+        </div>
+        
+        <div class="login-card">
+            <div class="login-tabs">
+                <div class="login-tab active" data-tab="login">登入</div>
+                <div class="login-tab" data-tab="signup">註冊</div>
+            </div>
+            
+            <!-- 登入表單 -->
+            <form id="login-form" class="login-form active">
+                <div class="form-group">
+                    <label class="form-label" for="login-email">
+                        <i class="fas fa-envelope"></i> 電子郵件
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="login-email" class="form-input with-icon" 
+                               placeholder="your@email.com" required autocomplete="email">
+                    </div>
+                    <div id="login-email-error" class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="login-password">
+                        <i class="fas fa-lock"></i> 密碼
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="login-password" class="form-input with-icon" 
+                               placeholder="請輸入密碼" required autocomplete="current-password">
+                        <button type="button" class="password-toggle" id="toggle-login-password">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                    <div id="login-password-error" class="error-message"></div>
+                </div>
+                
+                <div id="login-general-error" class="error-message"></div>
+                <div id="login-success-message" class="success-message"></div>
+                
+                <button type="submit" class="login-btn" id="login-submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> 登入
+                </button>
+                
+                <div class="login-divider">
+                    <span>或</span>
+                </div>
+                
+                <button type="button" class="guest-btn" id="guest-login-btn">
+                    <i class="fas fa-user-clock"></i> 訪客試用
+                </button>
+            </form>
+            
+            <!-- 註冊表單 -->
+            <form id="signup-form" class="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="signup-email">
+                        <i class="fas fa-envelope"></i> 電子郵件
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="signup-email" class="form-input with-icon" 
+                               placeholder="your@email.com" required autocomplete="email">
+                    </div>
+                    <div id="signup-email-error" class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="signup-password">
+                        <i class="fas fa-lock"></i> 密碼
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="signup-password" class="form-input with-icon" 
+                               placeholder="至少6個字符" required autocomplete="new-password">
+                        <button type="button" class="password-toggle" id="toggle-signup-password">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                    <div id="signup-password-error" class="error-message"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="signup-confirm-password">
+                        <i class="fas fa-lock"></i> 確認密碼
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="signup-confirm-password" class="form-input with-icon" 
+                               placeholder="再次輸入密碼" required autocomplete="new-password">
+                        <button type="button" class="password-toggle" id="toggle-signup-confirm-password">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                    <div id="signup-confirm-password-error" class="error-message"></div>
+                </div>
+                
+                <div id="signup-general-error" class="error-message"></div>
+                <div id="signup-success-message" class="success-message"></div>
+                
+                <button type="submit" class="login-btn" id="signup-submit-btn">
+                    <i class="fas fa-user-plus"></i> 註冊帳號
+                </button>
+                
+                <div class="login-divider">
+                    <span>或</span>
+                </div>
+                
+                <button type="button" class="guest-btn" id="guest-signup-btn">
+                    <i class="fas fa-user-clock"></i> 訪客試用
+                </button>
+            </form>
+            
+            <div class="demo-info">
+                <h3><i class="fas fa-vial"></i> 演示帳號</h3>
+                <p>立即體驗完整功能，無需註冊</p>
+                <div class="demo-credentials">
+                    <p><strong>電子郵件:</strong> <code>demo@example.com</code></p>
+                    <p><strong>密碼:</strong> <code>demo123</code></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="login-footer">
+            <p>© 2024 我的備忘錄 | <a href="#" id="privacy-link">隱私政策</a> | <a href="#" id="terms-link">使用條款</a></p>
+            <p>部署在 <a href="https://netlify.com" target="_blank">Netlify</a> | 使用純前端技術</p>
+        </div>
+    </div>
+
+    <!-- 隱私政策模態框 -->
+    <div id="privacy-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>隱私政策</h3>
+            <div class="modal-body">
+                <h4>數據存儲</h4>
+                <p>本應用使用瀏覽器的本地存儲（localStorage）保存您的備忘錄數據。所有數據都存儲在您的設備上，不會自動上傳到任何服務器。</p>
+                
+                <h4>雲同步（可選）</h4>
+                <p>如果您啟用雲同步功能，您的數據將加密後存儲在安全的服務器上，以便在多設備間同步。</p>
+                
+                <h4>第三方服務</h4>
+                <p>本應用使用Netlify進行部署，可能使用其分析服務收集匿名使用數據。</p>
+                
+                <h4>您的權利</h4>
+                <p>您可以隨時清除本地數據或刪除帳戶。訪客模式下的數據僅存儲在本地，不會上傳到服務器。</p>
+            </div>
+            <div class="modal-actions">
+                <button id="close-privacy-btn" class="btn-secondary">關閉</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用條款模態框 -->
+    <div id="terms-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>使用條款</h3>
+            <div class="modal-body">
+                <h4>服務說明</h4>
+                <p>本應用提供個人備忘錄管理服務，包括創建、編輯、保存和同步備忘錄功能。</p>
+                
+                <h4>用戶責任</h4>
+                <p>用戶需對自己創建的內容負責，不得創建或分享違法、侵權或有害內容。</p>
+                
+                <h4>服務可用性</h4>
+                <p>我們盡力提供穩定的服務，但對於服務中斷或數據損失不承擔責任。建議用戶定期備份重要數據。</p>
+                
+                <h4>條款變更</h4>
+                <p>我們保留修改本條款的權利，重大變更將通過應用內通知告知用戶。</p>
+            </div>
+            <div class="modal-actions">
+                <button id="close-terms-btn" class="btn-secondary">關閉</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        // 登入頁面專用腳本
+        document.addEventListener('DOMContentLoaded', function() {
+            // 切換登入/註冊標籤
+            const tabs = document.querySelectorAll('.login-tab');
+            const forms = document.querySelectorAll('.login-form');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.dataset.tab;
+                    
+                    // 更新標籤狀態
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 顯示對應表單
+                    forms.forEach(form => {
+                        form.classList.remove('active');
+                        if (form.id === `${tabName}-form`) {
+                            form.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // 密碼顯示/隱藏切換
+            function setupPasswordToggle(inputId, toggleId) {
+                const passwordInput = document.getElementById(inputId);
+                const toggleButton = document.getElementById(toggleId);
+                
+                if (passwordInput && toggleButton) {
+                    toggleButton.addEventListener('click', function() {
+                        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                        passwordInput.setAttribute('type', type);
+                        this.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+                    });
+                }
+            }
+            
+            setupPasswordToggle('login-password', 'toggle-login-password');
+            setupPasswordToggle('signup-password', 'toggle-signup-password');
+            setupPasswordToggle('signup-confirm-password', 'toggle-signup-confirm-password');
+            
+            // 表單驗證
+            function showError(elementId, message) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.textContent = message;
+                    element.classList.add('show');
+                    setTimeout(() => element.classList.remove('show'), 5000);
+                }
+            }
+            
+            function clearErrors() {
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.textContent = '';
+                    el.classList.remove('show');
+                });
+            }
+            
+            // 登入表單提交
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    clearErrors();
+                    
+                    const email = document.getElementById('login-email').value.trim();
+                    const password = document.getElementById('login-password').value;
+                    
+                    // 基本驗證
+                    if (!email) {
+                        showError('login-email-error', '請輸入電子郵件');
+                        return;
+                    }
+                    
+                    if (!password) {
+                        showError('login-password-error', '請輸入密碼');
+                        return;
+                    }
+                    
+                    // 使用authManager處理登入
+                    if (typeof authManager !== 'undefined') {
+                        // 模擬登入處理
+                        const loginBtn = document.getElementById('login-submit-btn');
+                        const originalText = loginBtn.innerHTML;
+                        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 登入中...';
+                        loginBtn.disabled = true;
+                        
+                        setTimeout(() => {
+                            // 演示帳號檢查
+                            if (email === 'demo@example.com' && password === 'demo123') {
+                                authManager.currentUser = {
+                                    id: 'demo-user-123',
+                                    email: 'demo@example.com',
+                                    name: '演示用戶'
+                                };
+                                authManager.isGuest = false;
+                                authManager.saveUserData();
+                                
+                                // 跳轉到主頁面
+                                window.location.href = 'index.html';
+                            } else {
+                                showError('login-general-error', '帳號或密碼不正確');
+                                loginBtn.innerHTML = originalText;
+                                loginBtn.disabled = false;
+                            }
+                        }, 1000);
+                    }
+                });
+            }
+            
+            // 註冊表單提交
+            const signupForm = document.getElementById('signup-form');
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    clearErrors();
+                    
+                    const email = document.getElementById('signup-email').value.trim();
+                    const password = document.getElementById('signup-password').value;
+                    const confirmPassword = document.getElementById('signup-confirm-password').value;
+                    
+                    // 驗證
+                    if (!email) {
+                        showError('signup-email-error', '請輸入電子郵件');
+                        return;
+                    }
+                    
+                    if (!this.isValidEmail(email)) {
+                        showError('signup-email-error', '請輸入有效的電子郵件');
+                        return;
+                    }
+                    
+                    if (!password) {
+                        showError('signup-password-error', '請輸入密碼');
+                        return;
+                    }
+                    
+                    if (password.length < 6) {
+                        showError('signup-password-error', '密碼至少需要6個字符');
+                        return;
+                    }
+                    
+                    if (password !== confirmPassword) {
+                        showError('signup-confirm-password-error', '兩次輸入的密碼不一致');
+                        return;
+                    }
+                    
+                    // 使用authManager處理註冊
+                    if (typeof authManager !== 'undefined') {
+                        const signupBtn = document.getElementById('signup-submit-btn');
+                        const originalText = signupBtn.innerHTML;
+                        signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 註冊中...';
+                        signupBtn.disabled = true;
+                        
+                        setTimeout(() => {
+                            authManager.currentUser = {
+                                id: `user-${Date.now()}`,
+                                email: email,
+                                name: email.split('@')[0]
+                            };
+                            authManager.isGuest = false;
+                            authManager.saveUserData();
+                            
+                            // 顯示成功消息
+                            const successMsg = document.getElementById('signup-success-message');
+                            successMsg.textContent = '註冊成功！正在跳轉...';
+                            successMsg.classList.add('show');
+                            
+                            // 跳轉到主頁面
+                            setTimeout(() => {
+                                window.location.href = 'index.html';
+                            }, 1500);
+                        }, 1500);
+                    }
+                });
+            }
+            
+            // 郵件驗證函數
+            this.isValidEmail = function(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            };
+            
+            // 訪客登入
+            const guestButtons = document.querySelectorAll('#guest-login-btn, #guest-signup-btn');
+            guestButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (typeof authManager !== 'undefined') {
+                        authManager.handleGuestLogin();
+                        window.location.href = 'index.html';
+                    }
+                });
+            });
+            
+            // 政策條款鏈接
+            document.getElementById('privacy-link')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('privacy-modal').classList.remove('hidden');
+            });
+            
+            document.getElementById('terms-link')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('terms-modal').classList.remove('hidden');
+            });
+            
+            // 關閉模態框
+            document.getElementById('close-privacy-btn')?.addEventListener('click', function() {
+                document.getElementById('privacy-modal').classList.add('hidden');
+            });
+            
+            document.getElementById('close-terms-btn')?.addEventListener('click', function() {
+                document.getElementById('terms-modal').classList.add('hidden');
+            });
+            
+            // 模態框背景點擊關閉
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // 自動填充演示帳號（方便測試）
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('demo') === 'true') {
+                document.getElementById('login-email').value = 'demo@example.com';
+                document.getElementById('login-password').value = 'demo123';
+            }
+            
+            // 檢查是否已登入，如果是則跳轉
+            if (localStorage.getItem('memo_user')) {
+                try {
+                    const user = JSON.parse(localStorage.getItem('memo_user'));
+                    if (user && user.id) {
+                        // 延遲跳轉以避免重定向循環
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 100);
+                    }
+                } catch (e) {
+                    // 解析失敗，停留在登入頁面
+                }
+            }
+        });
+    </script>
+</body>
+</html>

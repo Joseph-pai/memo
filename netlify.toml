@@ -1,0 +1,16 @@
+[build]
+  publish = "."
+  command = "echo 'No build command needed for static site'"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# 启用Netlify Identity
+[build.environment]
+  NODE_VERSION = "16"
+
+# 服务器less函数配置
+[functions]
+  directory = "./netlify/functions"

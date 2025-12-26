@@ -1,0 +1,20 @@
+{
+  "name": "memo-app",
+  "version": "1.0.0",
+  "description": "Apple风格的现代化备忘录应用",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server .",
+    "build": "echo 'No build step required for static site'",
+    "test": "echo 'No tests specified'"
+  },
+  "dependencies": {
+    "flatpickr": "^4.6.13"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "keywords": ["memo", "notes", "pwa", "productivity"],
+  "author": "Your Name",
+  "license": "MIT"
+}

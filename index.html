@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的备忘录 - Apple风格</title>
+    <!-- PWA相关 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007aff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+</head>
+<body class="light-theme">
+    <!-- 登录界面保持不变 -->
+    <div id="login-screen" class="screen">
+        <!-- ... 原有登录代码 ... -->
+    </div>
+
+    <!-- 主应用界面 -->
+    <div id="app-screen" class="screen hidden">
+        <!-- 侧边栏新增主题切换按钮 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="user-email">user@example.com</span>
+                </div>
+                <button id="new-memo-btn" class="btn-new-memo">
+                    <i class="fas fa-plus"></i> 新建备忘录
+                </button>
+            </div>
+            
+            <!-- 搜索栏 -->
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="搜索备忘录">
+            </div>
+            
+            <!-- 文件夹 -->
+            <div class="folders">
+                <div class="folder active" data-folder="all">
+                    <i class="fas fa-inbox"></i>
+                    <span>所有备忘录</span>
+                    <span id="all-count" class="count">0</span>
+                </div>
+                <div class="folder" data-folder="favorites">
+                    <i class="fas fa-star"></i>
+                    <span>收藏</span>
+                    <span id="favorites-count" class="count">0</span>
+                </div>
+                <div class="folder" data-folder="reminders">
+                    <i class="fas fa-bell"></i>
+                    <span>提醒</span>
+                    <span id="reminders-count" class="count">0</span>
+                </div>
+                <div class="folder" data-folder="trash">
+                    <i class="fas fa-trash"></i>
+                    <span>垃圾桶</span>
+                    <span id="trash-count" class="count">0</span>
+                </div>
+            </div>
+            
+            <!-- 标签部分 -->
+            <div class="tags-section">
+                <h3>标签</h3>
+                <div id="tags-list"></div>
+                <button id="new-tag-btn" class="btn-new-tag">
+                    <i class="fas fa-plus"></i> 新建标签
+                </button>
+            </div>
+            
+            <!-- 侧边栏底部 -->
+            <div class="sidebar-footer">
+                <button id="theme-toggle" class="btn-theme">
+                    <i class="fas fa-moon"></i> 暗黑模式
+                </button>
+                <button id="sync-btn" class="btn-sync">
+                    <i class="fas fa-sync-alt"></i> 同步
+                    <span id="sync-status" class="sync-status"></span>
+                </button>
+                <button id="logout-btn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> 退出登录
+                </button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <!-- 备忘录列表 -->
+            <div class="memos-list">
+                <div class="memos-header">
+                    <h2 id="current-folder">所有备忘录</h2>
+                    <div class="view-controls">
+                        <button id="list-view-btn" class="view-btn active">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <button id="grid-view-btn" class="view-btn">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="memos-container">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+            
+            <!-- 编辑器区域 -->
+            <div class="memo-editor">
+                <div class="editor-header">
+                    <input type="text" id="memo-title" placeholder="标题">
+                    <div class="editor-actions">
+                        <button id="favorite-btn" class="icon-btn" title="收藏">
+                            <i class="far fa-star"></i>
+                        </button>
+                        <button id="lock-btn" class="icon-btn" title="锁定">
+                            <i class="far fa-lock"></i>
+                        </button>
+                        <button id="reminder-btn" class="icon-btn" title="设置提醒">
+                            <i class="far fa-bell"></i>
+                        </button>
+                        <button id="delete-btn" class="icon-btn" title="删除">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                        <button id="share-btn" class="icon-btn" title="分享">
+                            <i class="fas fa-share"></i>
+                        </button>
+                        <button id="more-btn" class="icon-btn" title="更多">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 附件工具栏 -->
+                <div class="attachments-toolbar">
+                    <button id="attach-image-btn" class="attach-btn">
+                        <i class="fas fa-image"></i> 图片
+                    </button>
+                    <button id="attach-file-btn" class="attach-btn">
+                        <i class="fas fa-paperclip"></i> 文件
+                    </button>
+                    <button id="attach-camera-btn" class="attach-btn">
+                        <i class="fas fa-camera"></i> 相机
+                    </button>
+                </div>
+                
+                <div class="editor-toolbar">
+                    <!-- 原有工具栏按钮 -->
+                    <button class="tool-btn" data-command="bold" title="加粗">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                    <button class="tool-btn" data-command="italic" title="斜体">
+                        <i class="fas fa-italic"></i>
+                    </button>
+                    <button class="tool-btn" data-command="underline" title="下划线">
+                        <i class="fas fa-underline"></i>
+                    </button>
+                    <button class="tool-btn" data-command="insertUnorderedList" title="项目符号">
+                        <i class="fas fa-list-ul"></i>
+                    </button>
+                    <button class="tool-btn" data-command="insertOrderedList" title="编号列表">
+                        <i class="fas fa-list-ol"></i>
+                    </button>
+                    <button class="tool-btn" data-command="createLink" title="插入链接">
+                        <i class="fas fa-link"></i>
+                    </button>
+                    <div class="tag-selector">
+                        <select id="tag-select">
+                            <option value="">添加标签...</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- 附件预览区 -->
+                <div id="attachments-preview" class="attachments-preview">
+                    <!-- 附件预览将动态生成 -->
+                </div>
+                
+                <!-- 编辑器内容 -->
+                <div class="editor-content">
+                    <div id="memo-content" contenteditable="true" placeholder="开始输入..."></div>
+                </div>
+                
+                <div class="editor-footer">
+                    <div class="memo-info">
+                        <span id="char-count">0 字符</span>
+                        <span id="last-saved">从未保存</span>
+                        <span id="sync-status-badge" class="sync-badge offline">
+                            <i class="fas fa-wifi-slash"></i> 离线
+                        </span>
+                    </div>
+                    <button id="save-btn" class="btn-save">
+                        <i class="fas fa-save"></i> 保存
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 所有模态框 -->
+        <div id="new-tag-modal" class="modal hidden">
+            <!-- ... 原有代码 ... -->
+        </div>
+        
+        <div id="more-options-modal" class="modal hidden">
+            <!-- ... 原有代码 ... -->
+        </div>
+        
+        <!-- 提醒设置模态框 -->
+        <div id="reminder-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>设置提醒</h3>
+                <div class="reminder-options">
+                    <div class="reminder-option">
+                        <input type="radio" id="reminder-none" name="reminder" value="none" checked>
+                        <label for="reminder-none">无提醒</label>
+                    </div>
+                    <div class="reminder-option">
+                        <input type="radio" id="reminder-later" name="reminder" value="later">
+                        <label for="reminder-later">稍后提醒</label>
+                    </div>
+                    <div class="reminder-option">
+                        <input type="radio" id="reminder-tomorrow" name="reminder" value="tomorrow">
+                        <label for="reminder-tomorrow">明天</label>
+                    </div>
+                    <div class="reminder-option">
+                        <input type="radio" id="reminder-custom" name="reminder" value="custom">
+                        <label for="reminder-custom">自定义时间</label>
+                        <input type="datetime-local" id="custom-reminder-time" class="hidden">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button id="cancel-reminder-btn" class="btn-secondary">取消</button>
+                    <button id="save-reminder-btn" class="btn-primary">设置</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 分享模态框 -->
+        <div id="share-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>分享备忘录</h3>
+                <div class="share-options">
+                    <div class="share-option">
+                        <input type="radio" id="share-private" name="share-type" value="private" checked>
+                        <label for="share-private">仅我可见</label>
+                    </div>
+                    <div class="share-option">
+                        <input type="radio" id="share-link" name="share-type" value="link">
+                        <label for="share-link">生成分享链接</label>
+                    </div>
+                    <div class="share-option">
+                        <input type="radio" id="share-email" name="share-type" value="email">
+                        <label for="share-email">通过邮件分享</label>
+                        <input type="email" id="share-email-input" placeholder="输入邮箱地址" class="hidden">
+                    </div>
+                </div>
+                <div id="share-link-container" class="hidden">
+                    <input type="text" id="share-link-input" readonly>
+                    <button id="copy-link-btn" class="btn-secondary">
+                        <i class="fas fa-copy"></i> 复制链接
+                    </button>
+                </div>
+                <div class="modal-actions">
+                    <button id="cancel-share-btn" class="btn-secondary">取消</button>
+                    <button id="confirm-share-btn" class="btn-primary">分享</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 附件上传模态框 -->
+        <div id="upload-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>上传附件</h3>
+                <div class="upload-area" id="upload-area">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>拖放文件到此处或点击选择</p>
+                    <input type="file" id="file-input" multiple accept="image/*,.pdf,.doc,.docx,.txt">
+                </div>
+                <div class="upload-progress hidden" id="upload-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span id="progress-text">0%</span>
+                </div>
+                <div class="modal-actions">
+                    <button id="cancel-upload-btn" class="btn-secondary">取消</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 回收站恢复模态框 -->
+        <div id="trash-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>回收站</h3>
+                <div id="trash-list" class="trash-list">
+                    <!-- 回收站项目将动态生成 -->
+                </div>
+                <div class="modal-actions">
+                    <button id="empty-trash-btn" class="btn-danger">
+                        <i class="fas fa-trash"></i> 清空回收站
+                    </button>
+                    <button id="close-trash-btn" class="btn-secondary">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 通知 -->
+    <div id="notification" class="notification hidden">
+        <span id="notification-text"></span>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // 注册Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(registration => {
+                    console.log('Service Worker 注册成功:', registration);
+                })
+                .catch(error => {
+                    console.log('Service Worker 注册失败:', error);
+                });
+        }
+        
+        // 检测网络状态
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        
+        function updateOnlineStatus() {
+            const badge = document.getElementById('sync-status-badge');
+            if (navigator.onLine) {
+                badge.innerHTML = '<i class="fas fa-wifi"></i> 在线';
+                badge.className = 'sync-badge online';
+            } else {
+                badge.innerHTML = '<i class="fas fa-wifi-slash"></i> 离线';
+                badge.className = 'sync-badge offline';
+            }
+        }
+        
+        // 初始化网络状态
+        updateOnlineStatus();
+    </script>
+</body>
+</html>

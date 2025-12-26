@@ -1,0 +1,632 @@
+/* 原有样式保持不变，以下是新增样式 */
+
+/* 暗黑主题 */
+body.dark-theme {
+    background-color: #1d1d1f;
+    color: #f5f5f7;
+}
+
+.dark-theme .sidebar {
+    background-color: #2c2c2e;
+    border-right-color: #3a3a3c;
+}
+
+.dark-theme .sidebar-header {
+    border-bottom-color: #3a3a3c;
+}
+
+.dark-theme .search-bar {
+    background-color: #3a3a3c;
+    border-color: #48484a;
+}
+
+.dark-theme .search-bar input {
+    background-color: transparent;
+    color: #f5f5f7;
+}
+
+.dark-theme .folder:hover {
+    background-color: #3a3a3c;
+}
+
+.dark-theme .folder.active {
+    background-color: #0a84ff;
+    color: white;
+}
+
+.dark-theme .tags-section h3 {
+    color: #98989d;
+}
+
+.dark-theme .tag:hover {
+    background-color: #3a3a3c;
+}
+
+.dark-theme .tag.active {
+    background-color: #0a84ff;
+    color: white;
+}
+
+.dark-theme .sidebar-footer {
+    border-top-color: #3a3a3c;
+}
+
+.dark-theme .memos-list {
+    background-color: #2c2c2e;
+    border-right-color: #3a3a3c;
+}
+
+.dark-theme .memos-header {
+    border-bottom-color: #3a3a3c;
+}
+
+.dark-theme .memo-editor {
+    background-color: #2c2c2e;
+}
+
+.dark-theme .editor-header,
+.dark-theme .editor-toolbar,
+.dark-theme .editor-footer {
+    border-color: #3a3a3c;
+}
+
+.dark-theme #memo-title,
+.dark-theme #memo-content {
+    background-color: transparent;
+    color: #f5f5f7;
+}
+
+.dark-theme #memo-title::placeholder {
+    color: #98989d;
+}
+
+.dark-theme .tool-btn,
+.dark-theme .icon-btn {
+    background-color: #3a3a3c;
+    border-color: #48484a;
+    color: #98989d;
+}
+
+.dark-theme .tool-btn:hover,
+.dark-theme .icon-btn:hover {
+    background-color: #48484a;
+    color: #f5f5f7;
+}
+
+.dark-theme .modal-content {
+    background-color: #2c2c2e;
+    color: #f5f5f7;
+}
+
+.dark-theme .modal-content input,
+.dark-theme .modal-content select {
+    background-color: #3a3a3c;
+    border-color: #48484a;
+    color: #f5f5f7;
+}
+
+.dark-theme .options-list button {
+    color: #f5f5f7;
+}
+
+.dark-theme .options-list button:hover {
+    background-color: #3a3a3c;
+}
+
+/* 主题切换按钮 */
+.btn-theme {
+    background-color: transparent;
+    color: #007aff;
+    border: 1px solid #007aff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+}
+
+.btn-theme:hover {
+    background-color: #007aff;
+    color: white;
+}
+
+/* 同步按钮 */
+.btn-sync {
+    background-color: transparent;
+    color: #34c759;
+    border: 1px solid #34c759;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+}
+
+.btn-sync:hover {
+    background-color: #34c759;
+    color: white;
+}
+
+.sync-status {
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.sync-status.syncing {
+    color: #ff9500;
+}
+
+.sync-status.success {
+    color: #34c759;
+}
+
+.sync-status.error {
+    color: #ff3b30;
+}
+
+/* 同步状态徽章 */
+.sync-badge {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin-left: 10px;
+}
+
+.sync-badge.online {
+    background-color: #34c75920;
+    color: #34c759;
+}
+
+.sync-badge.offline {
+    background-color: #ff3b3020;
+    color: #ff3b30;
+}
+
+/* 附件工具栏 */
+.attachments-toolbar {
+    padding: 12px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    gap: 8px;
+}
+
+.attach-btn {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #666;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.attach-btn:hover {
+    background-color: #f5f5f7;
+    border-color: #007aff;
+    color: #007aff;
+}
+
+.attach-btn i {
+    margin-right: 6px;
+}
+
+/* 附件预览区 */
+.attachments-preview {
+    padding: 16px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.attachment-item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+}
+
+.attachment-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.attachment-file {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background-color: #f5f5f7;
+}
+
+.attachment-file i {
+    font-size: 24px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.attachment-filename {
+    font-size: 12px;
+    text-align: center;
+    word-break: break-all;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.remove-attachment {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.attachment-item:hover .remove-attachment {
+    opacity: 1;
+}
+
+/* 提醒样式 */
+.memo-preview.has-reminder::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: #ff9500;
+    border-radius: 2px 0 0 2px;
+}
+
+.reminder-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: #ff950020;
+    color: #ff9500;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    margin-right: 6px;
+}
+
+.reminder-badge i {
+    margin-right: 4px;
+    font-size: 10px;
+}
+
+/* 提醒模态框 */
+.reminder-options {
+    margin-bottom: 20px;
+}
+
+.reminder-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.reminder-option label {
+    margin-left: 8px;
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+.reminder-option input[type="datetime-local"] {
+    margin-left: 12px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* 分享模态框 */
+.share-options {
+    margin-bottom: 20px;
+}
+
+.share-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.share-option label {
+    margin-left: 8px;
+    cursor: pointer;
+    flex-grow: 1;
+}
+
+.share-option input[type="email"] {
+    margin-left: 12px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    flex-grow: 1;
+}
+
+#share-link-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+#share-link-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f5f5f7;
+}
+
+/* 上传区域 */
+.upload-area {
+    border: 2px dashed #007aff;
+    border-radius: 12px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+.upload-area:hover {
+    background-color: #f0f7ff;
+}
+
+.upload-area i {
+    font-size: 48px;
+    color: #007aff;
+    margin-bottom: 16px;
+}
+
+.upload-area p {
+    color: #666;
+    font-size: 16px;
+}
+
+#file-input {
+    display: none;
+}
+
+.upload-progress {
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #34c759;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+#progress-text {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+/* 回收站模态框 */
+.trash-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.trash-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.trash-item-info {
+    flex-grow: 1;
+}
+
+.trash-item-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.trash-item-date {
+    font-size: 12px;
+    color: #999;
+}
+
+.trash-item-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-restore {
+    background-color: #34c759;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-permanently-delete {
+    background-color: #ff3b30;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background-color: #ff3b30;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-danger:hover {
+    background-color: #d70015;
+}
+
+.btn-danger i {
+    margin-right: 8px;
+}
+
+/* 锁定的备忘录 */
+.locked-memo {
+    position: relative;
+}
+
+.locked-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.locked-overlay i {
+    font-size: 48px;
+    color: #666;
+    margin-bottom: 16px;
+}
+
+.locked-overlay p {
+    color: #666;
+    margin-bottom: 16px;
+}
+
+#unlock-input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    width: 200px;
+}
+
+/* 离线指示器 */
+.offline-indicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #ff3b30;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    z-index: 1000;
+    animation: slideIn 0.3s;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* 暗黑主题适配 */
+.dark-theme .upload-area {
+    border-color: #0a84ff;
+    background-color: #3a3a3c;
+}
+
+.dark-theme .upload-area:hover {
+    background-color: #48484a;
+}
+
+.dark-theme .upload-area p {
+    color: #98989d;
+}
+
+.dark-theme .trash-item {
+    border-color: #3a3a3c;
+    background-color: #3a3a3c;
+}
+
+.dark-theme .locked-overlay {
+    background-color: rgba(44, 44, 46, 0.95);
+}
+
+.dark-theme .locked-overlay i,
+.dark-theme .locked-overlay p {
+    color: #98989d;
+}
+
+.dark-theme #unlock-input {
+    background-color: #3a3a3c;
+    border-color: #48484a;
+    color: #f5f5f7;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .attachments-toolbar {
+        padding: 8px 16px;
+        overflow-x: auto;
+    }
+    
+    .attachment-item {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .trash-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .trash-item-actions {
+        margin-top: 12px;
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
